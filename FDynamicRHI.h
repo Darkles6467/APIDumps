@@ -1,0 +1,28 @@
+#pragma once
+
+#include "BaseDeclarations.h"
+struct FDynamicRHI
+{
+	char __padding[0x8L];
+
+	// Functions
+
+	float RHIGetEstimatedGPULoad() { return NativeCall<float>(this, "FDynamicRHI.RHIGetEstimatedGPULoad"); }
+	void RHIResizeViewport(FRHIViewport * Viewport, unsigned int SizeX, unsigned int SizeY, bool bIsFullscreen, EPixelFormat PreferredPixelFormat) { NativeCall<void, FRHIViewport *, unsigned int, unsigned int, bool, EPixelFormat>(this, "FDynamicRHI.RHIResizeViewport", Viewport, SizeX, SizeY, bIsFullscreen, PreferredPixelFormat); }
+	ETextureReallocationStatus CancelAsyncReallocateTexture2D_RenderThread(FRHICommandListImmediate * RHICmdList, FRHITexture2D * Texture2D, bool bBlockUntilCompleted) { return NativeCall<ETextureReallocationStatus, FRHICommandListImmediate *, FRHITexture2D *, bool>(this, "FDynamicRHI.CancelAsyncReallocateTexture2D_RenderThread", RHICmdList, Texture2D, bBlockUntilCompleted); }
+	void EnableIdealGPUCaptureOptions(bool bEnabled) { NativeCall<void, bool>(this, "FDynamicRHI.EnableIdealGPUCaptureOptions", bEnabled); }
+	ETextureReallocationStatus FinalizeAsyncReallocateTexture2D_RenderThread(FRHICommandListImmediate * RHICmdList, FRHITexture2D * Texture2D, bool bBlockUntilCompleted) { return NativeCall<ETextureReallocationStatus, FRHICommandListImmediate *, FRHITexture2D *, bool>(this, "FDynamicRHI.FinalizeAsyncReallocateTexture2D_RenderThread", RHICmdList, Texture2D, bBlockUntilCompleted); }
+	void * LockIndexBuffer_RenderThread(FRHICommandListImmediate * RHICmdList, FRHIIndexBuffer * IndexBuffer, unsigned int Offset, unsigned int SizeRHI, EResourceLockMode LockMode) { return NativeCall<void *, FRHICommandListImmediate *, FRHIIndexBuffer *, unsigned int, unsigned int, EResourceLockMode>(this, "FDynamicRHI.LockIndexBuffer_RenderThread", RHICmdList, IndexBuffer, Offset, SizeRHI, LockMode); }
+	void * LockStagingBuffer_RenderThread(FRHICommandListImmediate * RHICmdList, FRHIStagingBuffer * StagingBuffer, unsigned int Offset, unsigned int SizeRHI) { return NativeCall<void *, FRHICommandListImmediate *, FRHIStagingBuffer *, unsigned int, unsigned int>(this, "FDynamicRHI.LockStagingBuffer_RenderThread", RHICmdList, StagingBuffer, Offset, SizeRHI); }
+	void * LockTexture2D_RenderThread(FRHICommandListImmediate * RHICmdList, FRHITexture2D * Texture, unsigned int MipIndex, EResourceLockMode LockMode, unsigned int * DestStride, bool bLockWithinMiptail, bool bNeedsDefaultRHIFlush) { return NativeCall<void *, FRHICommandListImmediate *, FRHITexture2D *, unsigned int, EResourceLockMode, unsigned int *, bool, bool>(this, "FDynamicRHI.LockTexture2D_RenderThread", RHICmdList, Texture, MipIndex, LockMode, DestStride, bLockWithinMiptail, bNeedsDefaultRHIFlush); }
+	void * LockVertexBuffer_RenderThread(FRHICommandListImmediate * RHICmdList, FRHIVertexBuffer * VertexBuffer, unsigned int Offset, unsigned int SizeRHI, EResourceLockMode LockMode) { return NativeCall<void *, FRHICommandListImmediate *, FRHIVertexBuffer *, unsigned int, unsigned int, EResourceLockMode>(this, "FDynamicRHI.LockVertexBuffer_RenderThread", RHICmdList, VertexBuffer, Offset, SizeRHI, LockMode); }
+	void * RHILockStagingBuffer(FRHIStagingBuffer * StagingBuffer, unsigned int Offset, unsigned int SizeRHI) { return NativeCall<void *, FRHIStagingBuffer *, unsigned int, unsigned int>(this, "FDynamicRHI.RHILockStagingBuffer", StagingBuffer, Offset, SizeRHI); }
+	void RHIUnlockStagingBuffer(FRHIStagingBuffer * StagingBuffer) { NativeCall<void, FRHIStagingBuffer *>(this, "FDynamicRHI.RHIUnlockStagingBuffer", StagingBuffer); }
+	void UnlockIndexBuffer_RenderThread(FRHICommandListImmediate * RHICmdList, FRHIIndexBuffer * IndexBuffer) { NativeCall<void, FRHICommandListImmediate *, FRHIIndexBuffer *>(this, "FDynamicRHI.UnlockIndexBuffer_RenderThread", RHICmdList, IndexBuffer); }
+	void UnlockStagingBuffer_RenderThread(FRHICommandListImmediate * RHICmdList, FRHIStagingBuffer * StagingBuffer) { NativeCall<void, FRHICommandListImmediate *, FRHIStagingBuffer *>(this, "FDynamicRHI.UnlockStagingBuffer_RenderThread", RHICmdList, StagingBuffer); }
+	void UnlockTexture2D_RenderThread(FRHICommandListImmediate * RHICmdList, FRHITexture2D * Texture, unsigned int MipIndex, bool bLockWithinMiptail, bool bNeedsDefaultRHIFlush) { NativeCall<void, FRHICommandListImmediate *, FRHITexture2D *, unsigned int, bool, bool>(this, "FDynamicRHI.UnlockTexture2D_RenderThread", RHICmdList, Texture, MipIndex, bLockWithinMiptail, bNeedsDefaultRHIFlush); }
+	void UnlockVertexBuffer_RenderThread(FRHICommandListImmediate * RHICmdList, FRHIVertexBuffer * VertexBuffer) { NativeCall<void, FRHICommandListImmediate *, FRHIVertexBuffer *>(this, "FDynamicRHI.UnlockVertexBuffer_RenderThread", RHICmdList, VertexBuffer); }
+	void UpdateTexture2D_RenderThread(FRHICommandListImmediate * RHICmdList, FRHITexture2D * Texture, unsigned int MipIndex, const FUpdateTextureRegion2D * UpdateRegion, unsigned int SourcePitch, const char * SourceData) { NativeCall<void, FRHICommandListImmediate *, FRHITexture2D *, unsigned int, const FUpdateTextureRegion2D *, unsigned int, const char *>(this, "FDynamicRHI.UpdateTexture2D_RenderThread", RHICmdList, Texture, MipIndex, UpdateRegion, SourcePitch, SourceData); }
+	void UpdateTexture3D_RenderThread(FRHICommandListImmediate * RHICmdList, FRHITexture3D * Texture, unsigned int MipIndex, const FUpdateTextureRegion3D * UpdateRegion, unsigned int SourceRowPitch, unsigned int SourceDepthPitch, const char * SourceData) { NativeCall<void, FRHICommandListImmediate *, FRHITexture3D *, unsigned int, const FUpdateTextureRegion3D *, unsigned int, unsigned int, const char *>(this, "FDynamicRHI.UpdateTexture3D_RenderThread", RHICmdList, Texture, MipIndex, UpdateRegion, SourceRowPitch, SourceDepthPitch, SourceData); }
+};
+

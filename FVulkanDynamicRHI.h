@@ -1,0 +1,80 @@
+#pragma once
+
+#include "BaseDeclarations.h"
+#include "FDynamicRHI.h"
+#include "FIntRect.h"
+#include "FFloat16Color.h"
+#include "FColor.h"
+#include "FReadSurfaceDataFlags.h"
+
+struct FVulkanDynamicRHI : FDynamicRHI
+{
+	char __padding[0xa8L];
+	unsigned int& TotalPresentCountField() { return *GetNativePointerField<unsigned int*>(this, "FVulkanDynamicRHI.TotalPresentCount"); }
+	struct VkInstance_T * InstanceField() { return GetNativePointerField<struct VkInstance_T *>(this, "FVulkanDynamicRHI.Instance"); }
+	TArray<char const *>& InstanceExtensionsField() { return *GetNativePointerField<TArray<char const *>*>(this, "FVulkanDynamicRHI.InstanceExtensions"); }
+	TArray<char const *>& InstanceLayersField() { return *GetNativePointerField<TArray<char const *>*>(this, "FVulkanDynamicRHI.InstanceLayers"); }
+	TArray<FVulkanDevice *>& DevicesField() { return *GetNativePointerField<TArray<FVulkanDevice *>*>(this, "FVulkanDynamicRHI.Devices"); }
+	FVulkanDevice * DeviceField() { return GetNativePointerField<FVulkanDevice *>(this, "FVulkanDynamicRHI.Device"); }
+	TArray<FVulkanViewport *>& ViewportsField() { return *GetNativePointerField<TArray<FVulkanViewport *>*>(this, "FVulkanDynamicRHI.Viewports"); }
+	TRefCountPtr<FVulkanViewport>& DrawingViewportField() { return *GetNativePointerField<TRefCountPtr<FVulkanViewport>*>(this, "FVulkanDynamicRHI.DrawingViewport"); }
+	bool& bSupportsDebugUtilsExtField() { return *GetNativePointerField<bool*>(this, "FVulkanDynamicRHI.bSupportsDebugUtilsExt"); }
+	FWindowsCriticalSection& LockBufferCSField() { return *GetNativePointerField<FWindowsCriticalSection*>(this, "FVulkanDynamicRHI.LockBufferCS"); }
+
+	// Functions
+
+	void CreateInstance() { NativeCall<void>(this, "FVulkanDynamicRHI.CreateInstance"); }
+	static void GetInstanceLayersAndExtensions(TArray<char const *> * OutInstanceExtensions, TArray<char const *> * OutInstanceLayers, bool * bOutDebugUtils) { NativeCall<void, TArray<char const *> *, TArray<char const *> *, bool *>(nullptr, "FVulkanDynamicRHI.GetInstanceLayersAndExtensions", OutInstanceExtensions, OutInstanceLayers, bOutDebugUtils); }
+	const wchar_t * GetName() { return NativeCall<const wchar_t *>(this, "FVulkanDynamicRHI.GetName"); }
+	void Init() { NativeCall<void>(this, "FVulkanDynamicRHI.Init"); }
+	void InitInstance() { NativeCall<void>(this, "FVulkanDynamicRHI.InitInstance"); }
+	void InternalUnlockTexture2D(bool bFromRenderingThread, FRHITexture2D * TextureRHI, unsigned int MipIndex, bool bLockWithinMiptail) { NativeCall<void, bool, FRHITexture2D *, unsigned int, bool>(this, "FVulkanDynamicRHI.InternalUnlockTexture2D", bFromRenderingThread, TextureRHI, MipIndex, bLockWithinMiptail); }
+	void InternalUpdateTexture2D(bool bFromRenderingThread, FRHITexture2D * TextureRHI, unsigned int MipIndex, const FUpdateTextureRegion2D * UpdateRegion, unsigned int SourceRowPitch, const char * SourceData) { NativeCall<void, bool, FRHITexture2D *, unsigned int, const FUpdateTextureRegion2D *, unsigned int, const char *>(this, "FVulkanDynamicRHI.InternalUpdateTexture2D", bFromRenderingThread, TextureRHI, MipIndex, UpdateRegion, SourceRowPitch, SourceData); }
+	void InternalUpdateTexture3D(bool bFromRenderingThread, FRHITexture3D * TextureRHI, unsigned int MipIndex, const FUpdateTextureRegion3D * UpdateRegion, unsigned int SourceRowPitch, unsigned int SourceDepthPitch, const char * SourceData) { NativeCall<void, bool, FRHITexture3D *, unsigned int, const FUpdateTextureRegion3D *, unsigned int, unsigned int, const char *>(this, "FVulkanDynamicRHI.InternalUpdateTexture3D", bFromRenderingThread, TextureRHI, MipIndex, UpdateRegion, SourceRowPitch, SourceDepthPitch, SourceData); }
+	void * LockTexture2D_RenderThread(FRHICommandListImmediate * RHICmdList, FRHITexture2D * Texture, unsigned int MipIndex, EResourceLockMode LockMode, unsigned int * DestStride, bool bLockWithinMiptail, bool bNeedsDefaultRHIFlush) { return NativeCall<void *, FRHICommandListImmediate *, FRHITexture2D *, unsigned int, EResourceLockMode, unsigned int *, bool, bool>(this, "FVulkanDynamicRHI.LockTexture2D_RenderThread", RHICmdList, Texture, MipIndex, LockMode, DestStride, bLockWithinMiptail, bNeedsDefaultRHIFlush); }
+	void PostInit() { NativeCall<void>(this, "FVulkanDynamicRHI.PostInit"); }
+	void RHIAdvanceFrameForGetViewportBackBuffer(FRHIViewport * ViewportRHI) { NativeCall<void, FRHIViewport *>(this, "FVulkanDynamicRHI.RHIAdvanceFrameForGetViewportBackBuffer", ViewportRHI); }
+	void RHIAliasTextureResources(FRHITexture * DestTextureRHI, FRHITexture * SrcTextureRHI) { NativeCall<void, FRHITexture *, FRHITexture *>(this, "FVulkanDynamicRHI.RHIAliasTextureResources", DestTextureRHI, SrcTextureRHI); }
+	void RHIBlockUntilGPUIdle() { NativeCall<void>(this, "FVulkanDynamicRHI.RHIBlockUntilGPUIdle"); }
+	unsigned __int64 RHICalcTexture2DPlatformSize(unsigned int SizeX, unsigned int SizeY, char Format, unsigned int NumMips, unsigned int NumSamples, unsigned int Flags, unsigned int * OutAlign) { return NativeCall<unsigned __int64, unsigned int, unsigned int, char, unsigned int, unsigned int, unsigned int, unsigned int *>(this, "FVulkanDynamicRHI.RHICalcTexture2DPlatformSize", SizeX, SizeY, Format, NumMips, NumSamples, Flags, OutAlign); }
+	unsigned __int64 RHICalcTexture3DPlatformSize(unsigned int SizeX, unsigned int SizeY, unsigned int SizeZ, char Format, unsigned int NumMips, unsigned int Flags, unsigned int * OutAlign) { return NativeCall<unsigned __int64, unsigned int, unsigned int, unsigned int, char, unsigned int, unsigned int, unsigned int *>(this, "FVulkanDynamicRHI.RHICalcTexture3DPlatformSize", SizeX, SizeY, SizeZ, Format, NumMips, Flags, OutAlign); }
+	unsigned __int64 RHICalcTextureCubePlatformSize(unsigned int Size, char Format, unsigned int NumMips, unsigned int Flags, unsigned int * OutAlign) { return NativeCall<unsigned __int64, unsigned int, char, unsigned int, unsigned int, unsigned int *>(this, "FVulkanDynamicRHI.RHICalcTextureCubePlatformSize", Size, Format, NumMips, Flags, OutAlign); }
+	void RHICalibrateTimers() { NativeCall<void>(this, "FVulkanDynamicRHI.RHICalibrateTimers"); }
+	unsigned int RHIComputeMemorySize(FRHITexture * TextureRHI) { return NativeCall<unsigned int, FRHITexture *>(this, "FVulkanDynamicRHI.RHIComputeMemorySize", TextureRHI); }
+	void RHIDiscardRenderTargets(bool Depth, bool Stencil, unsigned int ColorBitMask) { NativeCall<void, bool, bool, unsigned int>(this, "FVulkanDynamicRHI.RHIDiscardRenderTargets", Depth, Stencil, ColorBitMask); }
+	void RHIFlushResources() { NativeCall<void>(this, "FVulkanDynamicRHI.RHIFlushResources"); }
+	void * RHIGetNativeDevice() { return NativeCall<void *>(this, "FVulkanDynamicRHI.RHIGetNativeDevice"); }
+	bool RHIGetRenderQueryResult(FRHIRenderQuery * QueryRHI, unsigned __int64 * OutNumPixels, bool bWait) { return NativeCall<bool, FRHIRenderQuery *, unsigned __int64 *, bool>(this, "FVulkanDynamicRHI.RHIGetRenderQueryResult", QueryRHI, OutNumPixels, bWait); }
+	void RHIGetResourceInfo(FRHITexture * Ref, FRHIResourceInfo * OutInfo) { NativeCall<void, FRHITexture *, FRHIResourceInfo *>(this, "FVulkanDynamicRHI.RHIGetResourceInfo", Ref, OutInfo); }
+	void RHIGetTextureMemoryStats(FTextureMemoryStats * OutStats) { NativeCall<void, FTextureMemoryStats *>(this, "FVulkanDynamicRHI.RHIGetTextureMemoryStats", OutStats); }
+	void * RHILockIndexBuffer(FRHIIndexBuffer * IndexBufferRHI, unsigned int Offset, unsigned int Size, EResourceLockMode LockMode) { return NativeCall<void *, FRHIIndexBuffer *, unsigned int, unsigned int, EResourceLockMode>(this, "FVulkanDynamicRHI.RHILockIndexBuffer", IndexBufferRHI, Offset, Size, LockMode); }
+	void * RHILockStagingBuffer(FRHIStagingBuffer * StagingBufferRHI, unsigned int Offset, unsigned int SizeRHI) { return NativeCall<void *, FRHIStagingBuffer *, unsigned int, unsigned int>(this, "FVulkanDynamicRHI.RHILockStagingBuffer", StagingBufferRHI, Offset, SizeRHI); }
+	void * RHILockTexture2D(FRHITexture2D * TextureRHI, unsigned int MipIndex, EResourceLockMode LockMode, unsigned int * DestStride, bool bLockWithinMiptail) { return NativeCall<void *, FRHITexture2D *, unsigned int, EResourceLockMode, unsigned int *, bool>(this, "FVulkanDynamicRHI.RHILockTexture2D", TextureRHI, MipIndex, LockMode, DestStride, bLockWithinMiptail); }
+	void * RHILockTexture2DArray(FRHITexture2DArray * TextureRHI, unsigned int TextureIndex, unsigned int MipIndex, EResourceLockMode LockMode, unsigned int * DestStride, bool bLockWithinMiptail) { return NativeCall<void *, FRHITexture2DArray *, unsigned int, unsigned int, EResourceLockMode, unsigned int *, bool>(this, "FVulkanDynamicRHI.RHILockTexture2DArray", TextureRHI, TextureIndex, MipIndex, LockMode, DestStride, bLockWithinMiptail); }
+	void * RHILockTextureCubeFace(FRHITextureCube * TextureCubeRHI, unsigned int FaceIndex, unsigned int ArrayIndex, unsigned int MipIndex, EResourceLockMode LockMode, unsigned int * DestStride, bool bLockWithinMiptail) { return NativeCall<void *, FRHITextureCube *, unsigned int, unsigned int, unsigned int, EResourceLockMode, unsigned int *, bool>(this, "FVulkanDynamicRHI.RHILockTextureCubeFace", TextureCubeRHI, FaceIndex, ArrayIndex, MipIndex, LockMode, DestStride, bLockWithinMiptail); }
+	void * RHILockVertexBuffer(FRHIVertexBuffer * VertexBufferRHI, unsigned int Offset, unsigned int Size, EResourceLockMode LockMode) { return NativeCall<void *, FRHIVertexBuffer *, unsigned int, unsigned int, EResourceLockMode>(this, "FVulkanDynamicRHI.RHILockVertexBuffer", VertexBufferRHI, Offset, Size, LockMode); }
+	void RHIMapStagingSurface(FRHITexture * TextureRHI, void ** OutData, int * OutWidth, int * OutHeight) { NativeCall<void, FRHITexture *, void **, int *, int *>(this, "FVulkanDynamicRHI.RHIMapStagingSurface", TextureRHI, OutData, OutWidth, OutHeight); }
+	void RHIRead3DSurfaceFloatData(FRHITexture * TextureRHI, FIntRect InRect, FIntPoint ZMinMax, TArray<FFloat16Color> * OutData) { NativeCall<void, FRHITexture *, FIntRect, FIntPoint, TArray<FFloat16Color> *>(this, "FVulkanDynamicRHI.RHIRead3DSurfaceFloatData", TextureRHI, InRect, ZMinMax, OutData); }
+	void RHIReadSurfaceData(FRHITexture * TextureRHI, FIntRect Rect, TArray<FColor> * OutData, FReadSurfaceDataFlags InFlags) { NativeCall<void, FRHITexture *, FIntRect, TArray<FColor> *, FReadSurfaceDataFlags>(this, "FVulkanDynamicRHI.RHIReadSurfaceData", TextureRHI, Rect, OutData, InFlags); }
+	void RHIReadSurfaceFloatData(FRHITexture * TextureRHI, FIntRect Rect, TArray<FFloat16Color> * OutData, ECubeFace CubeFace, int ArrayIndex, int MipIndex) { NativeCall<void, FRHITexture *, FIntRect, TArray<FFloat16Color> *, ECubeFace, int, int>(this, "FVulkanDynamicRHI.RHIReadSurfaceFloatData", TextureRHI, Rect, OutData, CubeFace, ArrayIndex, MipIndex); }
+	void RHIResizeViewport(FRHIViewport * ViewportRHI, unsigned int SizeX, unsigned int SizeY, bool bIsFullscreen) { NativeCall<void, FRHIViewport *, unsigned int, unsigned int, bool>(this, "FVulkanDynamicRHI.RHIResizeViewport", ViewportRHI, SizeX, SizeY, bIsFullscreen); }
+	void RHIResizeViewport(FRHIViewport * ViewportRHI, unsigned int SizeX, unsigned int SizeY, bool bIsFullscreen, EPixelFormat PreferredPixelFormat) { NativeCall<void, FRHIViewport *, unsigned int, unsigned int, bool, EPixelFormat>(this, "FVulkanDynamicRHI.RHIResizeViewport", ViewportRHI, SizeX, SizeY, bIsFullscreen, PreferredPixelFormat); }
+	void RHISubmitCommandsAndFlushGPU() { NativeCall<void>(this, "FVulkanDynamicRHI.RHISubmitCommandsAndFlushGPU"); }
+	void RHITick(float DeltaTime) { NativeCall<void, float>(this, "FVulkanDynamicRHI.RHITick", DeltaTime); }
+	void RHIUnlockIndexBuffer(FRHIIndexBuffer * IndexBufferRHI) { NativeCall<void, FRHIIndexBuffer *>(this, "FVulkanDynamicRHI.RHIUnlockIndexBuffer", IndexBufferRHI); }
+	void RHIUnlockStagingBuffer(FRHIStagingBuffer * StagingBufferRHI) { NativeCall<void, FRHIStagingBuffer *>(this, "FVulkanDynamicRHI.RHIUnlockStagingBuffer", StagingBufferRHI); }
+	void RHIUnlockTexture2D(FRHITexture2D * Texture, unsigned int MipIndex, bool bLockWithinMiptail) { NativeCall<void, FRHITexture2D *, unsigned int, bool>(this, "FVulkanDynamicRHI.RHIUnlockTexture2D", Texture, MipIndex, bLockWithinMiptail); }
+	void RHIUnlockTexture2DArray(FRHITexture2DArray * TextureRHI, unsigned int TextureIndex, unsigned int MipIndex, bool bLockWithinMiptail) { NativeCall<void, FRHITexture2DArray *, unsigned int, unsigned int, bool>(this, "FVulkanDynamicRHI.RHIUnlockTexture2DArray", TextureRHI, TextureIndex, MipIndex, bLockWithinMiptail); }
+	void RHIUnlockTextureCubeFace(FRHITextureCube * TextureCubeRHI, unsigned int FaceIndex, unsigned int ArrayIndex, unsigned int MipIndex, bool bLockWithinMiptail) { NativeCall<void, FRHITextureCube *, unsigned int, unsigned int, unsigned int, bool>(this, "FVulkanDynamicRHI.RHIUnlockTextureCubeFace", TextureCubeRHI, FaceIndex, ArrayIndex, MipIndex, bLockWithinMiptail); }
+	void RHIUnlockVertexBuffer(FRHIVertexBuffer * VertexBufferRHI) { NativeCall<void, FRHIVertexBuffer *>(this, "FVulkanDynamicRHI.RHIUnlockVertexBuffer", VertexBufferRHI); }
+	void RHIUnmapStagingSurface(FRHITexture * TextureRHI) { NativeCall<void, FRHITexture *>(this, "FVulkanDynamicRHI.RHIUnmapStagingSurface", TextureRHI); }
+	void RHIUpdateTexture2D(FRHITexture2D * Texture, unsigned int MipIndex, const FUpdateTextureRegion2D * UpdateRegion, unsigned int SourcePitch, const char * SourceData) { NativeCall<void, FRHITexture2D *, unsigned int, const FUpdateTextureRegion2D *, unsigned int, const char *>(this, "FVulkanDynamicRHI.RHIUpdateTexture2D", Texture, MipIndex, UpdateRegion, SourcePitch, SourceData); }
+	void RHIUpdateTexture3D(FRHITexture3D * Texture, unsigned int MipIndex, const FUpdateTextureRegion3D * UpdateRegion, unsigned int SourceRowPitch, unsigned int SourceDepthPitch, const char * SourceData) { NativeCall<void, FRHITexture3D *, unsigned int, const FUpdateTextureRegion3D *, unsigned int, unsigned int, const char *>(this, "FVulkanDynamicRHI.RHIUpdateTexture3D", Texture, MipIndex, UpdateRegion, SourceRowPitch, SourceDepthPitch, SourceData); }
+	void SelectAndInitDevice() { NativeCall<void>(this, "FVulkanDynamicRHI.SelectAndInitDevice"); }
+	void Shutdown() { NativeCall<void>(this, "FVulkanDynamicRHI.Shutdown"); }
+	void UnlockTexture2D_RenderThread(FRHICommandListImmediate * RHICmdList, FRHITexture2D * Texture, unsigned int MipIndex, bool bLockWithinMiptail, bool bNeedsDefaultRHIFlush) { NativeCall<void, FRHICommandListImmediate *, FRHITexture2D *, unsigned int, bool, bool>(this, "FVulkanDynamicRHI.UnlockTexture2D_RenderThread", RHICmdList, Texture, MipIndex, bLockWithinMiptail, bNeedsDefaultRHIFlush); }
+	void UpdateTexture2D_RenderThread(FRHICommandListImmediate * RHICmdList, FRHITexture2D * Texture, unsigned int MipIndex, const FUpdateTextureRegion2D * UpdateRegion, unsigned int SourcePitch, const char * SourceData) { NativeCall<void, FRHICommandListImmediate *, FRHITexture2D *, unsigned int, const FUpdateTextureRegion2D *, unsigned int, const char *>(this, "FVulkanDynamicRHI.UpdateTexture2D_RenderThread", RHICmdList, Texture, MipIndex, UpdateRegion, SourcePitch, SourceData); }
+	void UpdateTexture3D_RenderThread(FRHICommandListImmediate * RHICmdList, FRHITexture3D * Texture, unsigned int MipIndex, const FUpdateTextureRegion3D * UpdateRegion, unsigned int SourceRowPitch, unsigned int SourceDepthPitch, const char * SourceData) { NativeCall<void, FRHICommandListImmediate *, FRHITexture3D *, unsigned int, const FUpdateTextureRegion3D *, unsigned int, unsigned int, const char *>(this, "FVulkanDynamicRHI.UpdateTexture3D_RenderThread", RHICmdList, Texture, MipIndex, UpdateRegion, SourceRowPitch, SourceDepthPitch, SourceData); }
+	void VulkanSetImageLayout(struct VkCommandBuffer_T * CmdBuffer, struct VkImage_T * Image, VkImageLayout OldLayout, VkImageLayout NewLayout, const VkImageSubresourceRange * SubresourceRange) { NativeCall<void, struct VkCommandBuffer_T *, struct VkImage_T *, VkImageLayout, VkImageLayout, const VkImageSubresourceRange *>(this, "FVulkanDynamicRHI.VulkanSetImageLayout", CmdBuffer, Image, OldLayout, NewLayout, SubresourceRange); }
+};
+

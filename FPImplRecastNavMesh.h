@@ -1,0 +1,37 @@
+#pragma once
+
+#include "BaseDeclarations.h"
+#include "FNavigationPortalEdge.h"
+#include "FNavPathPoint.h"
+
+struct FPImplRecastNavMesh
+{
+	char __padding[0x90L];
+	ARecastNavMesh * NavMeshOwnerField() { return GetNativePointerField<ARecastNavMesh *>(this, "FPImplRecastNavMesh.NavMeshOwner"); }
+	bool& bOwnsNavMeshDataField() { return *GetNativePointerField<bool*>(this, "FPImplRecastNavMesh.bOwnsNavMeshData"); }
+	dtNavMesh * DetourNavMeshField() { return GetNativePointerField<dtNavMesh *>(this, "FPImplRecastNavMesh.DetourNavMesh"); }
+	dtNavMeshQuery& SharedNavQueryField() { return *GetNativePointerField<dtNavMeshQuery*>(this, "FPImplRecastNavMesh.SharedNavQuery"); }
+
+	// Functions
+
+	float CalcSegmentCostOnPoly(unsigned __int64 PolyID, const dtQueryFilter * Filter, const FVector * StartLoc, const FVector * EndLoc) { return NativeCall<float, unsigned __int64, const dtQueryFilter *, const FVector *, const FVector *>(this, "FPImplRecastNavMesh.CalcSegmentCostOnPoly", PolyID, Filter, StartLoc, EndLoc); }
+	ENavigationQueryResult::Type FindPath(const FVector * StartLoc, const FVector * EndLoc, FNavMeshPath * Path, const FNavigationQueryFilter * InQueryFilter, UObject * Owner) { return NativeCall<ENavigationQueryResult::Type, const FVector *, const FVector *, FNavMeshPath *, const FNavigationQueryFilter *, UObject *>(this, "FPImplRecastNavMesh.FindPath", StartLoc, EndLoc, Path, InQueryFilter, Owner); }
+	bool FindStraightPath(const FVector * StartLoc, const FVector * EndLoc, const TArray<unsigned __int64> * PathCorridor, TArray<FNavPathPoint> * PathPoints, TArray<unsigned int> * CustomLinks) { return NativeCall<bool, const FVector *, const FVector *, const TArray<unsigned __int64> *, TArray<FNavPathPoint> *, TArray<unsigned int> *>(this, "FPImplRecastNavMesh.FindStraightPath", StartLoc, EndLoc, PathCorridor, PathPoints, CustomLinks); }
+	void GetEdgesForPathCorridor(const TArray<unsigned __int64> * PathCorridor, TArray<FNavigationPortalEdge> * PathCorridorEdges) { NativeCall<void, const TArray<unsigned __int64> *, TArray<FNavigationPortalEdge> *>(this, "FPImplRecastNavMesh.GetEdgesForPathCorridor", PathCorridor, PathCorridorEdges); }
+	FBox * GetNavMeshBounds(FBox * result) { return NativeCall<FBox *, FBox *>(this, "FPImplRecastNavMesh.GetNavMeshBounds", result); }
+	bool GetPolyVerts(unsigned __int64 PolyID, TArray<FVector> * OutVerts) { return NativeCall<bool, unsigned __int64, TArray<FVector> *>(this, "FPImplRecastNavMesh.GetPolyVerts", PolyID, OutVerts); }
+	bool GetPolysWithinPathingDistance(const FVector * StartLoc, const float PathingDistance, const FNavigationQueryFilter * Filter, UObject * Owner, TArray<unsigned __int64> * FoundPolys) { return NativeCall<bool, const FVector *, const float, const FNavigationQueryFilter *, UObject *, TArray<unsigned __int64> *>(this, "FPImplRecastNavMesh.GetPolysWithinPathingDistance", StartLoc, PathingDistance, Filter, Owner, FoundPolys); }
+	bool GetRandomPointInRadius(const FVector * Origin, float Radius, FNavLocation * OutLocation, const FNavigationQueryFilter * Filter, UObject * Owner) { return NativeCall<bool, const FVector *, float, FNavLocation *, const FNavigationQueryFilter *, UObject *>(this, "FPImplRecastNavMesh.GetRandomPointInRadius", Origin, Radius, OutLocation, Filter, Owner); }
+	bool GetRandomReachablePointInMinMaxRadius(const FVector * Origin, float MinRadius, float MaxRadius, const FRandomStream * RandStream, const FVector PathDirection, const float DotLimit, FNavLocation * OutLocation, const FNavigationQueryFilter * Filter, UObject * Owner) { return NativeCall<bool, const FVector *, float, float, const FRandomStream *, const FVector, const float, FNavLocation *, const FNavigationQueryFilter *, UObject *>(this, "FPImplRecastNavMesh.GetRandomReachablePointInMinMaxRadius", Origin, MinRadius, MaxRadius, RandStream, PathDirection, DotLimit, OutLocation, Filter, Owner); }
+	bool InitPathfinding(const FVector * UnrealStart, const FVector * UnrealEnd, const dtNavMeshQuery * Query, const dtQueryFilter * Filter, FVector * RecastStart, unsigned __int64 * StartPoly, FVector * RecastEnd, unsigned __int64 * EndPoly) { return NativeCall<bool, const FVector *, const FVector *, const dtNavMeshQuery *, const dtQueryFilter *, FVector *, unsigned __int64 *, FVector *, unsigned __int64 *>(this, "FPImplRecastNavMesh.InitPathfinding", UnrealStart, UnrealEnd, Query, Filter, RecastStart, StartPoly, RecastEnd, EndPoly); }
+	void PostProcessPath(unsigned int FindPathStatus, FNavMeshPath * Path, const dtNavMeshQuery * NavQuery, const dtQueryFilter * Filter, unsigned __int64 StartPolyID, unsigned __int64 EndPolyID, const FVector * StartLoc, const FVector * EndLoc, const FVector * RecastStartPos, FVector * RecastEndPos, dtQueryResult * PathResult) { NativeCall<void, unsigned int, FNavMeshPath *, const dtNavMeshQuery *, const dtQueryFilter *, unsigned __int64, unsigned __int64, const FVector *, const FVector *, const FVector *, FVector *, dtQueryResult *>(this, "FPImplRecastNavMesh.PostProcessPath", FindPathStatus, Path, NavQuery, Filter, StartPolyID, EndPolyID, StartLoc, EndLoc, RecastStartPos, RecastEndPos, PathResult); }
+	bool ProjectPointMulti(const FVector * Point, TArray<FNavLocation> * Result, const FVector * Extent, float MinZ, float MaxZ, const FNavigationQueryFilter * Filter, UObject * Owner) { return NativeCall<bool, const FVector *, TArray<FNavLocation> *, const FVector *, float, float, const FNavigationQueryFilter *, UObject *>(this, "FPImplRecastNavMesh.ProjectPointMulti", Point, Result, Extent, MinZ, MaxZ, Filter, Owner); }
+	bool ProjectPointToNavMesh(const FVector * Point, FNavLocation * Result, const FVector * Extent, const FNavigationQueryFilter * Filter, UObject * Owner) { return NativeCall<bool, const FVector *, FNavLocation *, const FVector *, const FNavigationQueryFilter *, UObject *>(this, "FPImplRecastNavMesh.ProjectPointToNavMesh", Point, Result, Extent, Filter, Owner); }
+	void Raycast2D(const FVector * StartLoc, const FVector * EndLoc, const FNavigationQueryFilter * InQueryFilter, UObject * Owner, ARecastNavMesh::FRaycastResult * RaycastResult) { NativeCall<void, const FVector *, const FVector *, const FNavigationQueryFilter *, UObject *, ARecastNavMesh::FRaycastResult *>(this, "FPImplRecastNavMesh.Raycast2D", StartLoc, EndLoc, InQueryFilter, Owner, RaycastResult); }
+	void Serialize(FArchive * Ar) { NativeCall<void, FArchive *>(this, "FPImplRecastNavMesh.Serialize", Ar); }
+	static void SerializeRecastMeshTile(FArchive * Ar, char ** TileData, int * TileDataSize) { NativeCall<void, FArchive *, char **, int *>(nullptr, "FPImplRecastNavMesh.SerializeRecastMeshTile", Ar, TileData, TileDataSize); }
+	void SetRecastMesh(dtNavMesh * NavMesh, bool bOwnData) { NativeCall<void, dtNavMesh *, bool>(this, "FPImplRecastNavMesh.SetRecastMesh", NavMesh, bOwnData); }
+	ENavigationQueryResult::Type TestClusterPath(const FVector * StartLoc, const FVector * EndLoc, int * NumVisitedNodes) { return NativeCall<ENavigationQueryResult::Type, const FVector *, const FVector *, int *>(this, "FPImplRecastNavMesh.TestClusterPath", StartLoc, EndLoc, NumVisitedNodes); }
+	ENavigationQueryResult::Type TestPath(const FVector * StartLoc, const FVector * EndLoc, const FNavigationQueryFilter * InQueryFilter, UObject * Owner, int * NumVisitedNodes) { return NativeCall<ENavigationQueryResult::Type, const FVector *, const FVector *, const FNavigationQueryFilter *, UObject *, int *>(this, "FPImplRecastNavMesh.TestPath", StartLoc, EndLoc, InQueryFilter, Owner, NumVisitedNodes); }
+};
+
